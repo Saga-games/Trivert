@@ -1,5 +1,5 @@
 # Trivert
-
+Jogo Projeto da matéria Administração de redes. Desenvolvimento de um jogo Web.
 
 ## Premissa:
 Trivert é um jogo eletrônico desenvolvido pela Saga Games que oferece uma experiência divertida e desafiadora para os fãs do jogo de tabuleiro Trilha. O jogo foi projetado para ser jogado por duas pessoas, e apresenta um ambiente virtual que permite que os jogadores desafiem seus amigos ou familiares, independentemente de onde eles estejam. Além disso, o Trivert apresenta gráficos e animações impressionantes que elevam a experiência de jogo a um novo nível. O jogo também tem uma trilha sonora agradável que ajuda a criar uma atmosfera envolvente para os jogadores. Sendo assim, uma excelente opção para jogadores que querem testar suas habilidades de raciocínio lógico e se divertir ao mesmo tempo.
