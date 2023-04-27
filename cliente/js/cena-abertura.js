@@ -10,7 +10,7 @@ export default class abertura extends Phaser.Scene {
   create() {
     /* Imagem de fundo */
     this.imagem = this.add
-      .image(510, 510, "capadojogo.png")
+      .image(400, 225, "capadojogo.png")
       .setInteractive()
       .on("pointerdown", () => {
         this.imagem.destroy();
