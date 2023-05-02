@@ -4,12 +4,12 @@ export default class fim_do_jogo extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("ifsc-sj-2014", "./assets/ifsc-sj-2014.png");
+    this.load.image("capadojogo.png", "./assets/capadojogo.png");
   }
 
   create() {
     this.imagem = this.add
-      .image(400, 225, "ifsc-sj-2014")
+      .image(400, 225, "capadojogo.png")
       .setTint(0xff0000)
       .setInteractive()
       .on("pointerdown", () => {
@@ -18,9 +18,6 @@ export default class fim_do_jogo extends Phaser.Scene {
         this.game.scene.start("principal");
       });
 
-    this.texto = this.add.text(490, 50, "Fim do jogo.", {
-      fill: "#000000",
-    });
   }
 
   upload() {}
