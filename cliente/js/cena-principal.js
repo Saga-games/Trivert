@@ -4,13 +4,13 @@ export default class principal extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("tabuleirotech.png", "./assets/tabuleirotech.png");
+    this.load.image("tabuleirotech2.png", "./assets/tabuleirotech2.png");
   }
 
   create() {
     /* Imagem de fundo */
     this.imagem = this.add
-      .image(400, 225, "tabuleirotech.png")
+      .image(225, 400, "tabuleirotech2.png")
 
   }
 

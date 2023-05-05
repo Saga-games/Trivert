@@ -4,13 +4,13 @@ export default class abertura extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("capadojogo.png", "./assets/capadojogo.png");
+    this.load.image("capadojogo1.png", "./assets/capadojogo1.png");
   }
 
   create() {
     /* Imagem de fundo */
     this.imagem = this.add
-      .image(400, 225, "capadojogo.png")
+      .image(225, 400, "capadojogo1.png")
       .setInteractive()
       .on("pointerdown", () => {
         this.imagem.destroy();
