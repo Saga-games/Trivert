@@ -4,12 +4,12 @@ export default class fim_do_jogo extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("capadojogo.png", "./assets/capadojogo.png");
+    this.load.image("cenafimdejogo.png", "./assets/cenafimdejogo.png");
   }
 
   create() {
     this.imagem = this.add
-      .image(225, 400, "capadojogo.png")
+      .image(225, 400, "cenafimdejogo.png")
       .setTint(0xff0000)
       .setInteractive()
       .on("pointerdown", () => {
