@@ -1,6 +1,23 @@
 export default class principal extends Phaser.Scene {
   constructor() {
     super("principal");
+    this.tabuleiro = [
+      {
+        numero: 0,
+        x: 10,
+        y: 300,
+      },
+      {
+        numero: 1,
+        x: 60,
+        y: 300,
+      },
+      {
+        numero: 2,
+        x: 110,
+        y: 300,
+      },
+    ];
   }
 
   preload() {
@@ -11,29 +28,15 @@ export default class principal extends Phaser.Scene {
     /* Imagem de fundo */
     this.imagem = this.add.image(225, 400, "tabuleiro.png");
 
-    this.tabuleiro = [
-      {
-        x: 10,
-        y: 300,
-      },
-      {
-        x: 60,
-        y: 300,
-      },
-      {
-        x: 110,
-        y: 300,
-      },
-    ];
     this.tabuleiro.forEach((posicao) => {
       posicao.botao = this.add
         .text(posicao.x, posicao.y, "X")
         .setInteractive()
         .on("pointerdown", () => {
           if (this.game.jogadores.primeiro === this.game.socket.id) {
-            posicao.peca = "verde";
+            this.tabuleiro[posicao.numero].peca = "verde";
           } else {
-            posicao.peca = "vermelha";
+            this.tabuleiro[posicao.numero].peca = "vermelha";
           }
           this.game.socket.emit(
             "estado-publicar",
@@ -45,9 +48,11 @@ export default class principal extends Phaser.Scene {
 
     this.game.socket.on("estado-notificar", (estado) => {
       this.tabuleiro = estado;
-      console.log(this.tabuleiro);
+      this.tabuleiro.forEach((posicao) => {
+        console.log("%s: %s", posicao.numero, posicao.peca);
+      });
     });
   }
 
-  upload() {}
+  update() {}
 }
