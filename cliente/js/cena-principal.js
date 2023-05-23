@@ -121,12 +121,16 @@ export default class principal extends Phaser.Scene {
         numero: 23,
         x: 220,
         y: 545,
-      }
+      },
     ];
   }
 
   preload() {
     this.load.image("tabuleiro.png", "./assets/tabuleiro.png");
+    this.load.spritesheet("peao", "./assets/peao.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
   }
 
   create() {
@@ -135,27 +139,31 @@ export default class principal extends Phaser.Scene {
 
     this.tabuleiro.forEach((posicao) => {
       posicao.botao = this.add
-        .text(posicao.x, posicao.y, "X")
+        .sprite(posicao.x, posicao.y, "peao", 0)
         .setInteractive()
         .on("pointerdown", () => {
           if (this.game.jogadores.primeiro === this.game.socket.id) {
-            this.tabuleiro[posicao.numero].peca = "verde";
+            this.tabuleiro[posicao.numero].botao.setFrame(1);
+            this.game.socket.emit("estado-publicar", this.game.sala, {
+              numero: posicao.numero,
+              cor: "verde",
+            });
           } else {
-            this.tabuleiro[posicao.numero].peca = "vermelha";
+            this.tabuleiro[posicao.numero].botao.setFrame(2);
+            this.game.socket.emit("estado-publicar", this.game.sala, {
+              numero: posicao.numero,
+              cor: "vermelho",
+            });
           }
-          this.game.socket.emit(
-            "estado-publicar",
-            this.game.sala,
-            this.tabuleiro
-          );
         });
     });
 
     this.game.socket.on("estado-notificar", (estado) => {
-      this.tabuleiro = estado;
-      this.tabuleiro.forEach((posicao) => {
-        console.log("%s: %s", posicao.numero, posicao.peca);
-      });
+      if (estado.cor === "verde") {
+        this.tabuleiro[estado.numero].botao.setFrame(1);
+      } else if (estado.cor === "vermelho") {
+        this.tabuleiro[estado.numero].botao.setFrame(2);
+      }
     });
   }
 
