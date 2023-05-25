@@ -115,6 +115,15 @@ export default class salas extends Phaser.Scene {
         this.mensagem.setText("Aguardando...");
         this.salas.forEach((sala) => {
           sala.botao.destroy();
+
+          /* Captura de áudio */
+          navigator.mediaDevices
+            .getUserMedia({ video: false, audio: true })
+            .then((stream) => {
+              console.log(stream);
+              this.game.midias = stream;
+            })
+            .catch((error) => console.log(error));
         });
       }
     });
