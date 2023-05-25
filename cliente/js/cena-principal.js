@@ -1,6 +1,7 @@
 export default class principal extends Phaser.Scene {
   constructor() {
     super("principal");
+
     this.tabuleiro = [
       {
         numero: 0,
@@ -127,6 +128,7 @@ export default class principal extends Phaser.Scene {
 
   preload() {
     this.load.image("tabuleiro.png", "./assets/tabuleiro.png");
+
     this.load.spritesheet("peao", "./assets/peao.png", {
       frameWidth: 64,
       frameHeight: 64,
@@ -134,14 +136,16 @@ export default class principal extends Phaser.Scene {
   }
 
   create() {
-    /* Imagem de fundo */
     this.imagem = this.add.image(225, 400, "tabuleiro.png");
 
     this.tabuleiro.forEach((posicao) => {
       posicao.botao = this.add
-        .sprite(posicao.x, posicao.y, "peao", 0)
+        .sprite(posicao.x, posicao.y, "peao")
+        .setFrame(0)
         .setInteractive()
         .on("pointerdown", () => {
+          this.travar();
+
           if (this.game.jogadores.primeiro === this.game.socket.id) {
             this.tabuleiro[posicao.numero].botao.setFrame(1);
             this.game.socket.emit("estado-publicar", this.game.sala, {
@@ -155,17 +159,76 @@ export default class principal extends Phaser.Scene {
               cor: "vermelho",
             });
           }
+
+          this.verificar_vencedor();
         });
     });
 
+    /* Mudar a posição com a peça escolhida pelo oponente */
     this.game.socket.on("estado-notificar", (estado) => {
       if (estado.cor === "verde") {
         this.tabuleiro[estado.numero].botao.setFrame(1);
       } else if (estado.cor === "vermelho") {
         this.tabuleiro[estado.numero].botao.setFrame(2);
       }
+
+      this.verificar_vencedor() || this.destravar();
+    });
+
+    /* Destravar a partida para jogador 1 */
+    if (this.game.jogadores.primeiro === this.game.socket.id) {
+      this.destravar();
+    } else {
+      this.travar();
+    }
+  }
+
+  /* Travar todo o tabuleiro e escurecer os objetos */
+  travar() {
+    this.imagem.setTint("0x666666");
+
+    /* Desativar todas as posições */
+    this.tabuleiro.forEach((peca) => {
+      peca.botao.disableInteractive();
+      peca.botao.setTint("0x666666");
     });
   }
 
-  update() {}
+  /* Destravar todo o tabuleiro exceto as posições com peça */
+  destravar() {
+    this.imagem.setTint("0xffffff");
+
+    this.tabuleiro.forEach((peca) => {
+      peca.botao.setTint("0xffffff");
+
+      /* Ativar somente as posições sem peça (frame 0) */
+      if (peca.botao.frame.name === 0) {
+        peca.botao.setInteractive();
+      }
+    });
+  }
+
+  verificar_vencedor() {
+    // let ganhou = [[0, 3, 4]];
+    let possibilidades = [[0]];
+    let ganhou = false;
+
+    possibilidades.forEach((linha) => {
+      /* Se o Set() tem apenas um elemento houve ganhador */
+      if (
+        new Set([
+          this.tabuleiro[linha[0]].botao.frame.name,
+          // this.tabuleiro[linha[1]].botao.frame.name,
+          // this.tabuleiro[linha[2]].botao.frame.name,
+        ]).size === 1
+      ) {
+        this.imagem.setTint("0xff0000");
+        // this.game.scene.stop("principal");
+        ganhou = true;
+        return;
+      }
+    });
+
+    if (ganhou) return true;
+  }
 }

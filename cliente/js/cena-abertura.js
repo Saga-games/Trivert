@@ -13,10 +13,9 @@ export default class abertura extends Phaser.Scene {
       .image(225, 400, "capadojogo.png")
       .setInteractive()
       .on("pointerdown", () => {
-        this.imagem.destroy();
+        this.game.scene.stop("abertura");
         this.game.scene.start("salas");
       });
-
   }
 
   upload() {}
