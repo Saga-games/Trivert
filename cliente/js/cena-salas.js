@@ -23,6 +23,7 @@ export default class salas extends Phaser.Scene {
       font: "32px Courier",
       fill: "#ffffff",
     });
+
     this.salas = [
       {
         numero: 0,
@@ -108,9 +109,13 @@ export default class salas extends Phaser.Scene {
       if (jogadores.segundo) {
         this.mensagem.destroy();
         this.game.jogadores = jogadores;
+        this.game.scene.stop("salas");
         this.game.scene.start("principal");
       } else if (jogadores.primeiro) {
         this.mensagem.setText("Aguardando...");
+        this.salas.forEach((sala) => {
+          sala.botao.destroy();
+        });
       }
     });
   }
