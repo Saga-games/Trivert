@@ -133,10 +133,29 @@ export default class principal extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64,
     });
+
+    this.load.spritesheet("tela-cheia", "./assets/tela-cheia.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
   }
 
   create() {
     this.imagem = this.add.image(225, 400, "tabuleiro.png");
+
+    this.tela_cheia = this.add
+      .sprite(750, 50, "tela-cheia", 0)
+      .setInteractive()
+      .on("pointerdown", () => {
+        if (this.scale.isFullscreen) {
+          this.tela_cheia.setFrame(0);
+          this.scale.stopFullscreen();
+        } else {
+          this.tela_cheia.setFrame(1);
+          this.scale.startFullscreen();
+        }
+      })
+      .setScrollFactor(0);
 
     this.tabuleiro.forEach((posicao) => {
       posicao.botao = this.add
