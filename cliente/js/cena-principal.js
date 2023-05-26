@@ -144,7 +144,7 @@ export default class principal extends Phaser.Scene {
     this.imagem = this.add.image(225, 400, "tabuleiro.png");
 
     this.tela_cheia = this.add
-      .sprite(750, 50, "tela-cheia", 0)
+      .sprite(225, 50, "tela-cheia", 0)
       .setInteractive()
       .on("pointerdown", () => {
         if (this.scale.isFullscreen) {
@@ -325,17 +325,15 @@ export default class principal extends Phaser.Scene {
   }
 
   verificar_vencedor() {
-    // let ganhou = [[0, 3, 4]];
-    let possibilidades = [[0]];
-    let ganhou = false;
+    let ganhou = [[0, 3, 4]];
 
     possibilidades.forEach((linha) => {
       /* Se o Set() tem apenas um elemento houve ganhador */
       if (
         new Set([
           this.tabuleiro[linha[0]].botao.frame.name,
-          // this.tabuleiro[linha[1]].botao.frame.name,
-          // this.tabuleiro[linha[2]].botao.frame.name,
+          this.tabuleiro[linha[1]].botao.frame.name,
+          this.tabuleiro[linha[2]].botao.frame.name,
         ]).size === 1
       ) {
         this.imagem.setTint("0xff0000");
