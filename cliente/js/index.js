@@ -11,6 +11,7 @@ class Game extends Phaser.Game {
     super(config);
 
     this.socket = io();
+    //this.socket = io.connect({path: "/trivert/socket.io/"})
     this.socket.on("connect", () => {
       console.log("Conectado ao servidor para troca de mensagens.");
     });
