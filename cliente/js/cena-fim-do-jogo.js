@@ -10,7 +10,6 @@ export default class fim_do_jogo extends Phaser.Scene {
   create() {
     this.imagem = this.add
       .image(225, 400, "cenafimdejogo.png")
-      .setTint(0xff0000)
       .setInteractive()
       .on("pointerdown", () => {
         this.imagem.destroy();

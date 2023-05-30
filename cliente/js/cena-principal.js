@@ -325,8 +325,26 @@ export default class principal extends Phaser.Scene {
   }
 
   verificar_vencedor() {
-    let ganhou = [[0, 3, 4]];
+    let possibilidades = [
+      [0, 1, 2],
+      [0, 3, 4],
+      [4, 5, 6],
+      [2, 7, 6],
+      [8, 9, 10],
+      [10, 15, 13],
+      [13, 12, 11],
+      [11, 14, 8],
+      [16, 17, 18],
+      [18, 23, 21],
+      [21, 20, 19],
+      [19, 22, 16],
+      [1, 9, 17],
+      [7, 23, 15],
+      [5, 12, 20],
+      [3, 14, 22],
+    ];
 
+    let ganhou = false;
     possibilidades.forEach((linha) => {
       /* Se o Set() tem apenas um elemento houve ganhador */
       if (
@@ -334,10 +352,12 @@ export default class principal extends Phaser.Scene {
           this.tabuleiro[linha[0]].botao.frame.name,
           this.tabuleiro[linha[1]].botao.frame.name,
           this.tabuleiro[linha[2]].botao.frame.name,
-        ]).size === 1
+        ]).size === 1 &&
+        this.tabuleiro[linha[0]].botao.frame.name !== 0
       ) {
         this.imagem.setTint("0xff0000");
-        // this.game.scene.stop("principal");
+        this.game.scene.stop("principal");
+        this.game.scene.start("fim-do-jogo");
         ganhou = true;
         return;
       }

@@ -3,7 +3,7 @@ import config from "./config.js";
 import abertura from "./cena-abertura.js";
 import salas from "./cena-salas.js";
 import principal from "./cena-principal.js";
-import fim_do_jogo from "./cena-fim-de-jogo.js";
+import fim_do_jogo from "./cena-fim-do-jogo.js";
 //import final_feliz from "./cena-final-feliz.js";
 
 class Game extends Phaser.Game {
