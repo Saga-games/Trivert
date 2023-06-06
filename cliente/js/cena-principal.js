@@ -134,6 +134,11 @@ export default class principal extends Phaser.Scene {
       frameHeight: 64,
     });
 
+    this.load.spritesheet("9-0", "./assets/9-0.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
     this.load.spritesheet("tela-cheia", "./assets/tela-cheia.png", {
       frameWidth: 64,
       frameHeight: 64,
@@ -142,6 +147,8 @@ export default class principal extends Phaser.Scene {
 
   create() {
     this.imagem = this.add.image(225, 400, "tabuleiro.png");
+
+    this.pecas_disponiveis = this.add.sprite(225, 200, "9-0", 9);
 
     this.tela_cheia = this.add
       .sprite(225, 50, "tela-cheia", 0)
@@ -163,6 +170,9 @@ export default class principal extends Phaser.Scene {
         .setFrame(0)
         .setInteractive()
         .on("pointerdown", () => {
+          this.pecas_disponiveis.setFrame(
+            this.pecas_disponiveis.frame.name - 1
+          );
           this.travar();
 
           if (this.game.jogadores.primeiro === this.game.socket.id) {
@@ -179,7 +189,7 @@ export default class principal extends Phaser.Scene {
             });
           }
 
-          this.verificar_vencedor();
+          this.remover_peca();
         });
     });
 
@@ -191,7 +201,7 @@ export default class principal extends Phaser.Scene {
         this.tabuleiro[estado.numero].botao.setFrame(2);
       }
 
-      this.verificar_vencedor() || this.destravar();
+      this.remover_peca() || this.destravar();
     });
 
     /* Destravar a partida para jogador 1 */
@@ -324,7 +334,7 @@ export default class principal extends Phaser.Scene {
     });
   }
 
-  verificar_vencedor() {
+  remover_peca() {
     let possibilidades = [
       [0, 1, 2],
       [0, 3, 4],
