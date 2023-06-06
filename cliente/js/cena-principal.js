@@ -143,9 +143,14 @@ export default class principal extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64,
     });
+    
+    this.load.audio("musicafundo", "./assets/musicafundo.mp3");
   }
 
   create() {
+    this.trilha = this.sound.add("musicafundo");
+    this.trilha.play();
+
     this.imagem = this.add.image(225, 400, "tabuleiro.png");
 
     this.pecas_disponiveis = this.add.sprite(225, 200, "9-0", 9);
