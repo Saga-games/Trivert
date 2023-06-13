@@ -143,7 +143,7 @@ export default class principal extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64,
     });
-    
+
     this.load.audio("musicafundo", "./assets/musicafundo.mp3");
   }
 
@@ -219,19 +219,10 @@ export default class principal extends Phaser.Scene {
       navigator.mediaDevices
         .getUserMedia({ video: false, audio: true })
         .then((stream) => {
-          console.log(stream);
-
           /* Consulta ao(s) servidor(es) ICE */
           this.game.localConnection = new RTCPeerConnection(
             this.game.ice_servers
           );
-
-          /* Associação de mídia com conexão remota */
-          stream
-            .getTracks()
-            .forEach((track) =>
-              this.game.localConnection.addTrack(track, stream)
-            );
 
           /* Oferta de candidatos ICE */
           this.game.localConnection.onicecandidate = ({ candidate }) => {
@@ -243,6 +234,13 @@ export default class principal extends Phaser.Scene {
           this.game.localConnection.ontrack = ({ streams: [stream] }) => {
             this.game.audio.srcObject = stream;
           };
+
+          /* Associação de mídia com conexão remota */
+          stream
+            .getTracks()
+            .forEach((track) =>
+              this.game.localConnection.addTrack(track, stream)
+            );
 
           /* Oferta de mídia */
           this.game.localConnection
@@ -265,14 +263,7 @@ export default class principal extends Phaser.Scene {
 
     /* Recebimento de oferta de mídia */
     this.game.socket.on("offer", (description) => {
-      this.game.remoteConnection = new RTCPeerConnection(this.ice_servers);
-
-      /* Associação de mídia com conexão remota */
-      this.game.midias
-        .getTracks()
-        .forEach((track) =>
-          this.game.remoteConnection.addTrack(track, this.game.midias)
-        );
+      this.game.remoteConnection = new RTCPeerConnection(this.game.ice_servers);
 
       /* Contraoferta de candidatos ICE */
       this.game.remoteConnection.onicecandidate = ({ candidate }) => {
@@ -281,10 +272,16 @@ export default class principal extends Phaser.Scene {
       };
 
       /* Associação com o objeto HTML de áudio */
-      let midias = this.game.midias;
-      this.game.remoteConnection.ontrack = ({ streams: [midias] }) => {
-        this.game.audio.srcObject = this.game.midias;
+      this.game.remoteConnection.ontrack = ({ streams: [stream] }) => {
+        this.game.audio.srcObject = stream;
       };
+
+      /* Associação de mídia com conexão remota */
+      this.game.midias
+        .getTracks()
+        .forEach((track) =>
+          this.game.remoteConnection.addTrack(track, this.game.midias)
+        );
 
       /* Contraoferta de mídia */
       this.game.remoteConnection
@@ -360,6 +357,7 @@ export default class principal extends Phaser.Scene {
     ];
 
     let ganhou = false;
+    let perdeu = false;
     possibilidades.forEach((linha) => {
       /* Se o Set() tem apenas um elemento houve ganhador */
       if (
@@ -378,6 +376,8 @@ export default class principal extends Phaser.Scene {
       }
     });
 
-    if (ganhou) return true;
+    if (this.pecas_disponiveis.frame.name === 0) perdeu = true;
+
+    if (ganhou || perdeu) return true;
   }
 }

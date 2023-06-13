@@ -18,6 +18,4 @@ export default class fim_do_jogo extends Phaser.Scene {
       });
 
   }
-
-  upload() {}
 }

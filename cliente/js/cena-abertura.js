@@ -17,6 +17,4 @@ export default class abertura extends Phaser.Scene {
         this.game.scene.start("salas");
       });
   }
-
-  upload() {}
 }
