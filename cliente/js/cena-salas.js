@@ -120,7 +120,6 @@ export default class salas extends Phaser.Scene {
           navigator.mediaDevices
             .getUserMedia({ video: false, audio: true })
             .then((stream) => {
-              console.log(stream);
               this.game.midias = stream;
             })
             .catch((error) => console.log(error));
@@ -128,6 +127,4 @@ export default class salas extends Phaser.Scene {
       }
     });
   }
-
-  upload() {}
 }
