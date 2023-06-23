@@ -382,7 +382,7 @@ export default class principal extends Phaser.Scene {
     });
 
     if (this.pecas_disponiveis.frame.name === 0) {
-      this.game.socket.emit("cena-publicar", this.game.sala, "fim-do-jogo")
+      //this.game.socket.emit("cena-publicar", this.game.sala, "fim-do-jogo")
       this.game.scene.stop("principal");
       this.game.scene.start("fim-do-jogo");
     };
